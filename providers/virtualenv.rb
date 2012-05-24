@@ -25,7 +25,8 @@ include Chef::Mixin::ShellOut
 action :create do
   unless exists?
     Chef::Log.info("Creating virtualenv #{@new_resource} at #{@new_resource.path}")
-    execute "#{virtualenv_cmd} --python=#{@new_resource.interpreter} #{@new_resource.path}" do
+    system_site_packages = new_resource.system_site_packages ? '--system-site-packages' : ''
+    execute "virtualenv --python=#{@new_resource.interpreter} #{system_site_packages} #{@new_resource.path}" do
       user new_resource.owner if new_resource.owner
       group new_resource.group if new_resource.group
     end
@@ -51,14 +52,6 @@ def load_current_resource
     @current_resource.group(cstats.gid)
   end
   @current_resource
-end
-
-def virtualenv_cmd()
-  if "#{node['python']['install_method']}".eql?("source")
-    ::File.join("#{node['python']['prefix_dir']}","/bin/virtualenv")
-  else
-    "virtualenv"
-  end
 end
 
 private
