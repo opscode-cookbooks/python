@@ -48,13 +48,14 @@ Install packages using the new hotness in Python package management...[`pip`](ht
 # Actions
 
 - :install: Install a pip package - if version is provided, install that specific version
+- :install_requirements: Install packages specified in a requirements file
 - :upgrade: Upgrade a pip package - if version is provided, upgrade to that specific version
 - :remove: Remove a pip package
 - :purge: Purge a pip package (this usually entails removing configuration files as well as the package itself).  With pip packages this behaves the same as `:remove`
 
 # Attribute Parameters
 
-- package_name: name attribute. The name of the pip package to install
+- package_name: name attribute. The name of the pip package to install or path to the requirements file
 - version: the version of the package to install/upgrade.  If no version is given latest is assumed.
 - virtualenv: virtualenv environment to install pip package into
 - options: Add additional options to the underlying pip package command
@@ -77,6 +78,11 @@ Install packages using the new hotness in Python package management...[`pip`](ht
     python_pip "django" do
       version "1.1.4"
       action :install
+    end
+
+    # install from requirements.txt
+    python_pip "/path/to/requirements.txt" do
+      action :install_requirements
     end
 
     # use this provider with the core package resource
