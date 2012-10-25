@@ -44,6 +44,14 @@ action :install do
   end
 end
 
+action :install_requirements do
+    Chef::Log.info("Installing requirements from #{@new_resource.name}")
+    status = install_requirements()
+    if status
+      @new_resource.updated_by_last_action(true)
+    end
+end
+
 action :upgrade do
   if @current_resource.version != candidate_version
     orig_version = @current_resource.version || "uninstalled"
@@ -118,8 +126,13 @@ def candidate_version
   end
 end
 
-def install_package(version)
+def install_package(version='latest')
   pip_cmd('install', version == 'latest' ? '' : "==#{version}")
+end
+
+def install_requirements()
+  @new_resource.options "#{@new_resource.options} -r"
+  install_package()
 end
 
 def upgrade_package(version)
