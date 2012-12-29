@@ -30,6 +30,7 @@ else
   python_pkgs = value_for_platform_family(
                   "debian" => ["python","python-dev"],
                   "rhel" => ["python","python-devel"],
+                  "fedora" => ["python","python-devel","python-setuptools"],
                   "freebsd" => ["python"],
                   "smartos" => ["python27"],
                   "default" => ["python","python-dev"]
