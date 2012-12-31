@@ -57,16 +57,20 @@ def load_requirements_file(file)
   ::File.open(file,'r') do |f|
     f.each_line do |l|
       delimeter = l.match(/\W?=/).to_s
-      requirements.merge!({
-        l.split(delimeter)[0].strip.downcase => {
-          :version => l.split(delimeter)[1].strip,
-          :comparison => delimeter
-        }
-      })
+      if delimeter
+        requirements.merge!({
+          l.split(delimeter)[0].strip.downcase => {
+            :version => l.split(delimeter)[1].strip,
+            :comparison => delimeter
+          }
+        })
+      else
+        Chef::Log.error("Could not find delimeter in line: " + l.inspect)
+      end
     end
   end
 
-  Chef::Log.debug("Loaded the following requirements from file #{@new_resource.file}: " + requirements.inspect)
+  Chef::Log.debug("Requirements loaded from #{@new_resource.file}: " + requirements.inspect)
 
   requirements
 end
