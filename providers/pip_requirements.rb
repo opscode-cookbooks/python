@@ -56,6 +56,17 @@ def load_requirements_file(file)
 
   ::File.open(file,'r') do |f|
     f.each_line do |l|
+      # ignore comments
+      next if l.start_with? /#/
+      # ignore allowed in-line options (from pip source)
+      next if l.start_with? %w{
+        --requirement -r
+        --always-unzip -Z
+        -f -i --index-url
+        --extra-index-url
+        --find-links
+      }
+
       delimeter = l.match(/\W?=/).to_s
       if delimeter
         requirements.merge!({
