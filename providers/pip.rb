@@ -151,8 +151,11 @@ end
 
 def pip_cmd(subcommand, version='')
   options = { :timeout => new_resource.timeout, :user => new_resource.user, :group => new_resource.group }
-  options[:environment] = ENV.to_hash
-  options[:environment].merge!('http_proxy' => ENV['http_proxy'] || Chef::Config[:http_proxy], 'https_proxy' => ENV['https_proxy'] || Chef::Config[:https_proxy], 'no_proxy' => ENV['no_proxy'] || Chef::Config[:no_proxy]) 
+  options[:environment] = {
+    'http_proxy' => ENV.fetch('http_proxy', Chef::Config[:http_proxy]),
+    'https_proxy' => ENV.fetch('https_proxy', Chef::Config[:https_proxy]),
+    'no_proxy' => ENV.fetch('no_proxy', Chef::Config[:no_proxy]),
+  }
   options[:environment]['HOME'] = ::File.expand_path("~#{@new_resource.user}") if @new_resource.user
   shell_out!("#{which_pip(new_resource)} #{subcommand} #{new_resource.options} #{new_resource.name}#{version}", options)
 end
