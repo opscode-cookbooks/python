@@ -136,11 +136,14 @@ def install_package(version)
   else
     version = "==#{version}"
   end
+  default_options = to_command_line_option(node['python']['pip']['default_install_options'])
+  new_resource.options "#{default_options} #{new_resource.options}"
   pip_cmd('install', version)
 end
 
 def upgrade_package(version)
-  new_resource.options "#{new_resource.options} --upgrade"
+  default_options = to_command_line_option(node['python']['pip']['default_install_options'])
+  new_resource.options "#{default_options} #{new_resource.options} --upgrade"
   install_package(version)
 end
 
@@ -165,4 +168,10 @@ def which_pip(nr)
   else
     'pip'
   end
+end
+
+def to_command_line_option(args)
+  return args.map {
+    |argument, setting| "--#{argument} #{setting}"
+  }.join(' ')
 end
