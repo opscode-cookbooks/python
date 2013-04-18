@@ -20,6 +20,8 @@
 
 include_recipe "python::pip"
 
-python_pip "virtualenv" do
-  action :install
+if not node['python'].has_key?('no_virtualenv') or not node['python']['no_virtualenv']
+  python_pip "virtualenv" do
+    action :install
+  end
 end
