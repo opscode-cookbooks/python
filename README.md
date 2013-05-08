@@ -48,7 +48,7 @@ Install packages using the new hotness in Python package management...[`pip`](ht
 # Actions
 
 - :install: Install a pip package - if version is provided, install that specific version (default)
-- :upgrade: Upgrade a pip package - if version is provided, upgrade to that specific version
+- :upgrade: Upgrade a pip package - if version is provided, upgrade to that specific version otherwise to the most recent version.
 - :remove: Remove a pip package
 - :user: User to run pip as, for using with virtualenv
 - :group: Group to run pip as, for using with virtualenv
@@ -61,6 +61,8 @@ Install packages using the new hotness in Python package management...[`pip`](ht
 - virtualenv: virtualenv environment to install pip package into
 - options: Add additional options to the underlying pip package command
 - timeout: timeout in seconds for the command to execute. Useful for pip packages that may take a long time to install. Default 900 seconds.
+- pypi_index: the url to use with install commands to pull from a particular pypi index.
+- requirements: provide a requirements file instead of a resource from the server
 
 # Example
 
@@ -146,7 +148,8 @@ Installs Python from source.
 pip
 ---
 
-Installs `pip` from source.
+Installs `pip` from source.  It's always recommended to use this in a
+virtualenv.
 
 virtualenv
 ----------
