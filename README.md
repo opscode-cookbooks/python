@@ -26,6 +26,7 @@ Attributes
 See `attributes/default.rb` for default values.
 
 * `node["python"]["install_method"]` - method to install python with, default `package`.
+* `node["python"]["pip"]["download_cache"]` - a directory to cache pip downloads to, default `nil`.
 
 The file also contains the following attributes:
 
