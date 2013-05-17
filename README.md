@@ -11,12 +11,14 @@ Platform
 
 * Debian, Ubuntu
 * CentOS, Red Hat, Fedora
+* Windows
 
 Cookbooks
 ---------
 
 * build-essential
 * yum
+* windows
 
 NOTE: The `yum` cookbook is a dependency of the cookbook, and will be used to install [EPEL](http://fedoraproject.org/wiki/EPEL) on RedHet/CentOS 5.x systems to provide the Python 2.6 packages.
 
@@ -131,27 +133,27 @@ Usage
 default
 -------
 
-Include default recipe in a run list, to get `python`, `pip` and `virtualenv`. Installs python by package or source depending on the platform.
+Include default recipe in a run list, to get `python`, `pip` and `virtualenv`. Installs python by package or source depending on the platform. For Windows this only installs Python from a package.
 
 package
 -------
 
-Installs Python from packages.
+Installs Python from packages. 
 
 source
 ------
 
-Installs Python from source.
+Installs Python from source. This is not supported on Windows.
 
 pip
 ---
 
-Installs `pip` from source.
+Installs `pip` from source. This is not supported on Windows.
 
 virtualenv
 ----------
 
-Installs virtualenv using the `python_pip` resource.
+Installs virtualenv using the `python_pip` resource. This is not supported on Windows.
 
 License and Author
 ==================
