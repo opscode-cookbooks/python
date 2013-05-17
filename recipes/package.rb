@@ -36,8 +36,12 @@ else
                 )
 end
 
-python_pkgs.each do |pkg|
-  package pkg do
-    action :install
+if platform?('windows')
+  include_recipe 'python::windows'
+else
+  python_pkgs.each do |pkg|
+    package pkg do
+      action :install
+    end
   end
 end
