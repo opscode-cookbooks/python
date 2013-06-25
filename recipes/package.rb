@@ -26,9 +26,11 @@ if platform_family?('rhel') && major_version < 6
   include_recipe 'yum::epel'
   python_pkgs = ["python26", "python26-devel"]
   node.set['python']['binary'] = "/usr/bin/python26"
+elsif platform_family?('debian')
+  include_recipe 'apt'
+  python_pkgs = ["python","python-dev"]
 else
   python_pkgs = value_for_platform_family(
-                  "debian" => ["python","python-dev"],
                   "rhel" => ["python","python-devel"],
                   "freebsd" => ["python"],
                   "smartos" => ["python27"],
