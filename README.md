@@ -82,6 +82,39 @@ Install packages using the new hotness in Python package management...[`pip`](ht
       provider Chef::Provider::PythonPip
     end
 
+`python_pip_requirements`
+-------------------------
+
+Install multiple Python packages from a [requirements file](http://www.pip-installer.org/en/latest/requirements.html).
+
+# Actions
+
+- :install: Install a list of Python packages (default)
+- :remove: Remove a list of Python packages
+
+# Attribute Parameters
+
+- file: name attribute. The full path to the requirements file.
+- virtualenv: virtualenv environment to install pip packages into
+- user: uid to execute pip under
+- group: gid to execute pip under
+- options: Add additional options to the underlying pip package command
+- timeout: timeout in seconds for the command to execute. Useful for pip packages that may take a long time to install. Default 900 seconds.
+
+# Example
+
+    python_pip_requirements "/opt/myawesomeapp/requirements.txt" do
+      user 'myappuser'
+      group 'myappgroup'
+    end
+
+    python_pip_requirements "/opt/someotherapp/requirements.txt" do
+      user "datuser"
+      group "datgroup"
+      virtualenv "/opt/someotherapp/env"
+      options "--index-url=http://myprivatepypi.example.com"
+    end
+
 `python_virtualenv`
 -------------------
 
