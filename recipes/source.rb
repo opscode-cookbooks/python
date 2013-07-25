@@ -36,6 +36,7 @@ install_path = "#{node['python']['prefix_dir']}/bin/python#{version.split(/(^\d+
 install_type = node['python']['install_type']
 
 directory "#{Chef::Config[:file_cache_path]}" do
+  recursive true
   action :create
   not_if { ::File.exists?("#{Chef::Config[:file_cache_path]}") }
 end
