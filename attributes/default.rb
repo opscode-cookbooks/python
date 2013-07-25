@@ -29,6 +29,7 @@ if python['install_method'] == 'package'
   end
 else
   default['python']['prefix_dir']         = '/usr/local'
+  default['python']['install_type']       = 'install'
 end
 
 default['python']['binary'] = "#{python['prefix_dir']}/bin/python"
