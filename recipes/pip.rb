@@ -25,7 +25,7 @@
 
 if node['python']['install_method'] == 'source'
   pip_binary = "#{node['python']['prefix_dir']}/bin/pip"
-  major_minor_version = "#{node['python']['version']}"[/\d\.\d/]
+  major_minor_version = node['python']['version'][/\d\.\d/]
 elsif platform_family?("rhel")
   pip_binary = "/usr/bin/pip"
 elsif platform_family?("smartos")
@@ -59,7 +59,7 @@ execute "altinstall-setuptools" do
   command <<-EOF
   #{node['python']['binary']}#{major_minor_version} ez_setup.py
   EOF
-  not_if "#{node['python']['binary']}-2.7 -c 'import setuptools'"
+  not_if "#{node['python']['binary']}#{major_minor_version} -c 'import setuptools'"
   only_if {node['python']['install_type'] == "altinstall"}
 end
 
@@ -76,6 +76,6 @@ execute "altinstall-pip" do
   command <<-EOF
   #{node['python']['binary']}#{major_minor_version} get-pip.py
   EOF
-  not_if { ::File.exists?(pip_binary) }
+  not_if { ::File.exists?(pip_binary + "-" + major_minor_version) }
   only_if {node['python']['install_type'] == "altinstall"}
 end
