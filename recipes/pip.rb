@@ -25,7 +25,7 @@
 
 if node['python']['install_method'] == 'source'
   pip_binary = "#{node['python']['prefix_dir']}/bin/pip"
-  major_minor_version = node['python']['version'][/\d\.\d/]
+  major_minor_version = "#{node['python']['version']}"[/\d\.\d/]
 elsif platform_family?("rhel")
   pip_binary = "/usr/bin/pip"
 elsif platform_family?("smartos")
