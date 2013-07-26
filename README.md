@@ -26,6 +26,7 @@ Attributes
 See `attributes/default.rb` for default values.
 
 * `node["python"]["install_method"]` - method to install python with, default `package`.
+* `node["python"]["install_type"]` - when above attirbute is set to `source`, choose make `install` or make `altinstall` for installing compiled code, default `install`.
 
 The file also contains the following attributes:
 
@@ -50,8 +51,6 @@ Install packages using the new hotness in Python package management...[`pip`](ht
 - :install: Install a pip package - if version is provided, install that specific version (default)
 - :upgrade: Upgrade a pip package - if version is provided, upgrade to that specific version
 - :remove: Remove a pip package
-- :user: User to run pip as, for using with virtualenv
-- :group: Group to run pip as, for using with virtualenv
 - :purge: Purge a pip package (this usually entails removing configuration files as well as the package itself).  With pip packages this behaves the same as `:remove`
 
 # Attribute Parameters
@@ -59,6 +58,8 @@ Install packages using the new hotness in Python package management...[`pip`](ht
 - package_name: name attribute. The name of the pip package to install
 - version: the version of the package to install/upgrade.  If no version is given latest is assumed.
 - virtualenv: virtualenv environment to install pip package into
+- user: User to run pip as, for using with virtualenv
+- group: Group to run pip as, for using with virtualenv
 - options: Add additional options to the underlying pip package command
 - timeout: timeout in seconds for the command to execute. Useful for pip packages that may take a long time to install. Default 900 seconds.
 
