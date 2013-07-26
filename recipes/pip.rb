@@ -25,6 +25,7 @@
 
 if node['python']['install_method'] == 'source'
   pip_binary = "#{node['python']['prefix_dir']}/bin/pip"
+  major_minor_version = node['python']['version'][/\d\.\d/]
 elsif platform_family?("rhel")
   pip_binary = "/usr/bin/pip"
 elsif platform_family?("smartos")
@@ -53,10 +54,28 @@ execute "install-setuptools" do
   not_if "#{node['python']['binary']} -c 'import setuptools'"
 end
 
+execute "altinstall-setuptools" do
+  cwd Chef::Config[:file_cache_path]
+  command <<-EOF
+  #{node['python']['binary']}#{major_minor_version} ez_setup.py
+  EOF
+  not_if "#{node['python']['binary']}-2.7 -c 'import setuptools'"
+  only_if {node['python']['install_type'] == "altinstall"}
+end
+
 execute "install-pip" do
   cwd Chef::Config[:file_cache_path]
   command <<-EOF
   #{node['python']['binary']} get-pip.py
   EOF
   not_if { ::File.exists?(pip_binary) }
+end
+
+execute "altinstall-pip" do
+  cwd Chef::Config[:file_cache_path]
+  command <<-EOF
+  #{node['python']['binary']}#{major_minor_version} get-pip.py
+  EOF
+  not_if { ::File.exists?(pip_binary) }
+  only_if {node['python']['install_type'] == "altinstall"}
 end
