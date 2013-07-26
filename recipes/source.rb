@@ -33,6 +33,13 @@ end
 
 version = node['python']['version']
 install_path = "#{node['python']['prefix_dir']}/bin/python#{version.split(/(^\d+\.\d+)/)[1]}"
+install_type = node['python']['install_type']
+
+directory "#{Chef::Config[:file_cache_path]}" do
+  recursive true
+  action :create
+  not_if { ::File.exists?("#{Chef::Config[:file_cache_path]}") }
+end
 
 remote_file "#{Chef::Config[:file_cache_path]}/Python-#{version}.tar.bz2" do
   source "#{node['python']['url']}/#{version}/Python-#{version}.tar.bz2"
@@ -46,7 +53,7 @@ bash "build-and-install-python" do
   code <<-EOF
   tar -jxvf Python-#{version}.tar.bz2
   (cd Python-#{version} && ./configure #{configure_options})
-  (cd Python-#{version} && make && make install)
+  (cd Python-#{version} && make && make #{install_type})
   EOF
   environment({
       "LDFLAGS" => "-L#{node['python']['prefix_dir']} -L/usr/lib",
