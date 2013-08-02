@@ -19,14 +19,7 @@
 #
 
 default['python']['install_method'] = 'package'
-
-default['python']['url'] = 'http://www.python.org/ftp/python'
 default['python']['version'] = '2.7.5'
-default['python']['checksum'] = '3b477554864e616a041ee4d7cef9849751770bc7c39adaf78a94ea145c488059'
-default['python']['configure_options'] = %W{--prefix=#{python['prefix_dir']}}
-
-default['python']['setuptools_script_url'] = 'https://bitbucket.org/pypa/setuptools/raw/0.8/ez_setup.py'
-default['python']['pip_script_url'] = 'https://raw.github.com/pypa/pip/master/contrib/get-pip.py'
 
 if python['install_method'] == 'package'
   case platform
@@ -40,8 +33,15 @@ else
   default['python']['prefix_dir']         = '/usr/local'
   default['python']['install_type']       = 'install'
   if python['install_type'] == 'altinstall'
-    default['python']['binary'] = "#{python['prefix_dir']}/bin/python#{node['python']['version'].split(/(^\d+\.\d+)/)[1]}"
+    default['python']['binary'] = "#{python['prefix_dir']}/bin/python#{python['version'].split(/(^\d+\.\d+)/)[1]}"
   else
     default['python']['binary'] = "#{python['prefix_dir']}/bin/python"
   end
 end
+
+default['python']['url'] = 'http://www.python.org/ftp/python'
+default['python']['checksum'] = '3b477554864e616a041ee4d7cef9849751770bc7c39adaf78a94ea145c488059'
+default['python']['configure_options'] = %W{--prefix=#{python['prefix_dir']}}
+
+default['python']['setuptools_script_url'] = 'https://bitbucket.org/pypa/setuptools/raw/0.8/ez_setup.py'
+default['python']['pip_script_url'] = 'https://raw.github.com/pypa/pip/master/contrib/get-pip.py'
