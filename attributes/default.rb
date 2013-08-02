@@ -39,7 +39,7 @@ if python['install_method'] == 'package'
 else
   default['python']['prefix_dir']         = '/usr/local'
   default['python']['install_type']       = 'install'
-  if node['python']['install_type'] == 'altinstall'
+  if python['install_type'] == 'altinstall'
     default['python']['binary'] = "#{python['prefix_dir']}/bin/python#{node['python']['version'].split(/(^\d+\.\d+)/)[1]}"
   else
     default['python']['binary'] = "#{python['prefix_dir']}/bin/python"
