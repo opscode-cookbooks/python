@@ -26,7 +26,7 @@ Attributes
 See `attributes/default.rb` for default values.
 
 * `node["python"]["install_method"]` - method to install python with, default `package`.
-* `node["python"]["install_type"]` - when above attirbute is set to `source`, choose make `install` or make `altinstall` for installing compiled code, default `install`.
+* `node["python"]["install_type"]` - when above attribute is set to `source`, choose make `install` or make `altinstall` for installing compiled code, default `install`.
 
 The file also contains the following attributes:
 
