@@ -19,6 +19,7 @@
 #
 
 default['python']['install_method'] = 'package'
+default['python']['version'] = '2.7.5'
 
 if python['install_method'] == 'package'
   case platform
@@ -27,14 +28,18 @@ if python['install_method'] == 'package'
   else
     default['python']['prefix_dir']         = '/usr'
   end
+  default['python']['binary'] = "#{python['prefix_dir']}/bin/python"
 else
   default['python']['prefix_dir']         = '/usr/local'
+  default['python']['install_type']       = 'install'
+  if python['install_type'] == 'altinstall'
+    default['python']['binary'] = "#{python['prefix_dir']}/bin/python#{python['version'].split(/(^\d+\.\d+)/)[1]}"
+  else
+    default['python']['binary'] = "#{python['prefix_dir']}/bin/python"
+  end
 end
 
-default['python']['binary'] = "#{python['prefix_dir']}/bin/python"
-
 default['python']['url'] = 'http://www.python.org/ftp/python'
-default['python']['version'] = '2.7.5'
 default['python']['checksum'] = '3b477554864e616a041ee4d7cef9849751770bc7c39adaf78a94ea145c488059'
 default['python']['configure_options'] = %W{--prefix=#{python['prefix_dir']}}
 
