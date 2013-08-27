@@ -19,7 +19,6 @@
 #
 
 python_virtualenv "/tmp/virtualenv" do
-  interpreter "python"
   owner "root"
   group "root"
   action :create
@@ -27,7 +26,6 @@ end
 
 python_virtualenv "isolated python environment" do
   path "/tmp/tobedestroyed"
-  interpreter "python"
   action :create
 end
 

@@ -52,7 +52,6 @@ suites:
   - recipe[python]
   - recipe[python_test::test_exert]
 - name: virtualenv
-  excludes: ["centos-5.9"]
   run_list:
   - recipe[python]
   - recipe[python_test::test_virtualenv]
