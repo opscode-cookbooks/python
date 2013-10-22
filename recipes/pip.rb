@@ -48,7 +48,7 @@ end
 execute "install-setuptools" do
   cwd Chef::Config[:file_cache_path]
   command <<-EOF
-  #{node['python']['binary']} ez_setup.py
+  #{node['python']['binary']} ez_setup.py --download-base=#{node['python']['setuptools_base_url']}
   EOF
   not_if "#{node['python']['binary']} -c 'import setuptools'"
 end
