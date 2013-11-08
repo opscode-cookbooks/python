@@ -43,8 +43,8 @@ if python['install_method'] == 'package'
 else
   default['python']['prefix_dir']         = '/usr/local'
 end
-
-default['python']['binary'] = "#{node['python']['prefix_dir']}/bin/python"
+default['python']['binary_name']          = 'python'
+default['python']['binary'] = "#{node['python']['prefix_dir']}/bin/#{node['python']['binary_name']}"
 
 default['python']['url'] = 'http://www.python.org/ftp/python'
 default['python']['version'] = '2.7.5'
