@@ -18,6 +18,7 @@
 # limitations under the License.
 #
 
+default['python']['binary_name']          = 'python'
 default['python']['install_method'] = 'package'
 major_version = platform_version.split('.').first.to_i
 if python['install_method'] == 'package'
@@ -27,6 +28,7 @@ if python['install_method'] == 'package'
       default['python']['python_pkgs']        = ["python","python-dev"]
     when "rhel"
       if major_version < 6
+        default['python']['binary_name']          = 'python26'
         default['python']['python_pkgs']      = ["python26", "python26-devel"]
       else
         default['python']['python_pkgs']      = ["python","python-devel"]
@@ -43,8 +45,6 @@ if python['install_method'] == 'package'
 else
   default['python']['prefix_dir']         = '/usr/local'
 end
-default['python']['binary_name']          = 'python'
-default['python']['binary'] = "#{node['python']['prefix_dir']}/bin/#{node['python']['binary_name']}"
 
 default['python']['url'] = 'http://www.python.org/ftp/python'
 default['python']['version'] = '2.7.5'

@@ -60,9 +60,10 @@ end
 
 # Link install as the default python, to support Python 3.x
 # Otherwise the pip and virtualenv recipes won't work properly
-link node['python']['binary'] do
+python_binary = "#{node['python']['prefix_dir']}/bin/#{node['python']['binary_name']}"
+link python_binary do
   to install_path
-  not_if { ::File.exists?(node['python']['binary']) }
+  not_if { ::File.exists?(python_binary) }
 end
 
 

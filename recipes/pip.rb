@@ -32,11 +32,12 @@ elsif platform_family?("smartos")
 else
   pip_binary = "/usr/local/bin/pip"
 end
+python_binary = "#{node['python']['prefix_dir']}/bin/#{node['python']['binary_name']}"
 
 cookbook_file "#{Chef::Config[:file_cache_path]}/ez_setup.py" do
   source 'ez_setup.py'
   mode "0644"
-  not_if "#{node['python']['binary']} -c 'import setuptools'"
+  not_if "#{python_binary} -c 'import setuptools'"
 end
 
 cookbook_file "#{Chef::Config[:file_cache_path]}/get-pip.py" do
@@ -48,15 +49,15 @@ end
 execute "install-setuptools" do
   cwd Chef::Config[:file_cache_path]
   command <<-EOF
-  #{node['python']['binary']} ez_setup.py
+  #{python_binary} ez_setup.py
   EOF
-  not_if "#{node['python']['binary']} -c 'import setuptools'"
+  not_if "#{python_binary} -c 'import setuptools'"
 end
 
 execute "install-pip" do
   cwd Chef::Config[:file_cache_path]
   command <<-EOF
-  #{node['python']['binary']} get-pip.py
+  #{python_binary} get-pip.py
   EOF
   not_if { ::File.exists?(pip_binary) }
 end

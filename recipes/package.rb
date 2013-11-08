@@ -24,7 +24,6 @@ major_version = node['platform_version'].split('.').first.to_i
 # repo & package
 if platform_family?('rhel') && major_version < 6
   include_recipe 'yum::epel'
-  node.default['python']['binary'] = "/usr/bin/python26"
 end
 
 node['python']['python_pkgs'].each do |pkg|
