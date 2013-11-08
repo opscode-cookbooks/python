@@ -1,4 +1,4 @@
-#
+  #
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
 # Cookbook Name:: python
 # Attribute:: default
@@ -19,14 +19,27 @@
 #
 
 default['python']['install_method'] = 'package'
-
+major_version = platform_version.split('.').first.to_i
 if python['install_method'] == 'package'
+  default['python']['prefix_dir']         = '/usr'
   case platform
-  when "smartos"
-    default['python']['prefix_dir']         = '/opt/local'
-  else
-    default['python']['prefix_dir']         = '/usr'
+    when "debian"
+      default['python']['python_pkgs']        = ["python","python-dev"]
+    when "rhel"
+      if major_version < 6
+        default['python']['python_pkgs']      = ["python26", "python26-devel"]
+      else
+        default['python']['python_pkgs']      = ["python","python-devel"]
+      end
+    when "freebsd"
+      default['python']['python_pkgs']        = ["python"]
+    when "smartos"
+      default['python']['prefix_dir']         = '/opt/local'
+      default['python']['python_pkgs']        = ["python27"]
+    else
+      default['python']['python_pkgs']        = ["python","python-dev"]
   end
+
 else
   default['python']['prefix_dir']         = '/usr/local'
 end
