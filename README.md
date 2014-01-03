@@ -135,7 +135,7 @@ Installs Python from packages.
 Installs Python from source.
 
 ### pip
-Installs `pip` from source.
+Installs `pip` from system package if `node["python"]["install_method"] == "package"` and the OS system packages are 2.6+, otherwise will install `pip` from source ( source located in `files/default/*.py` ).
 
 ### virtualenv
 
