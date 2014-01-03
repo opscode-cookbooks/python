@@ -23,40 +23,75 @@
 # redhat/package: /usr/bin/pip (sha a8a3a3)
 # omnibus/source: /opt/local/bin/pip (sha 29ce9874)
 
+major_version = node['platform_version'].split('.').first.to_i
+if node['python']['install_method'] == 'package'
+  # COOK-1016 Handle RHEL/CentOS namings of python packages, by installing EPEL
+  # repo & package
+  case node["platform_family"]
+  when 'rhel'
+    include_recipe 'yum::epel'
+    if major_version < 6
+      # rhel 5 defaults of py24 is laffable, better use source.
+      install_ez_from_source = true
+      install_pip_from_source = true
+    else
+      pip_pkgs = ["python-setuptools", "python-pip"]
+    end
+  when 'debian'
+    pip_pkgs = ["python-pip", "python-setuptools"]
+  else
+    install_ez_from_source = true
+    install_pip_from_source = true
+  end
+  if pip_pkgs
+    pip_pkgs.each do |pkg|
+      package pkg do
+        action :install
+      end
+    end
+  end
+end
+
 if node['python']['install_method'] == 'source'
   pip_binary = "#{node['python']['prefix_dir']}/bin/pip"
-elsif platform_family?("rhel")
-  pip_binary = "/usr/bin/pip"
-elsif platform_family?("smartos")
-  pip_binary = "/opt/local/bin/pip"
+  install_ez_from_source = true
+  install_pip_from_source = true
 else
-  pip_binary = "/usr/local/bin/pip"
+  if platform_family?("rhel")
+    pip_binary = "/usr/bin/pip"
+  elsif platform_family?("smartos")
+    pip_binary = "/opt/local/bin/pip"
+  else
+    pip_binary = "/usr/local/bin/pip"
+  end
 end
 
-cookbook_file "#{Chef::Config[:file_cache_path]}/ez_setup.py" do
-  source 'ez_setup.py'
-  mode "0644"
-  not_if "#{node['python']['binary']} -c 'import setuptools'"
+if install_ez_from_source
+  cookbook_file "#{Chef::Config[:file_cache_path]}/ez_setup.py" do
+    source 'ez_setup.py'
+    mode "0644"
+    not_if "#{node['python']['binary']} -c 'import setuptools'"
+  end
+  execute "install-setuptools" do
+    cwd Chef::Config[:file_cache_path]
+    command <<-EOF
+    #{node['python']['binary']} ez_setup.py
+    EOF
+    not_if "#{node['python']['binary']} -c 'import setuptools'"
+  end
 end
 
-cookbook_file "#{Chef::Config[:file_cache_path]}/get-pip.py" do
-  source 'get-pip.py'
-  mode "0644"
-  not_if { ::File.exists?(pip_binary) }
-end
-
-execute "install-setuptools" do
-  cwd Chef::Config[:file_cache_path]
-  command <<-EOF
-  #{node['python']['binary']} ez_setup.py
-  EOF
-  not_if "#{node['python']['binary']} -c 'import setuptools'"
-end
-
-execute "install-pip" do
-  cwd Chef::Config[:file_cache_path]
-  command <<-EOF
-  #{node['python']['binary']} get-pip.py
-  EOF
-  not_if { ::File.exists?(pip_binary) }
+if install_pip_from_source
+  cookbook_file "#{Chef::Config[:file_cache_path]}/get-pip.py" do
+    source 'get-pip.py'
+    mode "0644"
+    not_if { ::File.exists?(pip_binary) }
+  end
+  execute "install-pip" do
+    cwd Chef::Config[:file_cache_path]
+    command <<-EOF
+    #{node['python']['binary']} get-pip.py
+    EOF
+    not_if { ::File.exists?(pip_binary) }
+  end
 end
