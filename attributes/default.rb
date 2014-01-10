@@ -33,6 +33,20 @@ end
 
 default['python']['binary'] = "#{python['prefix_dir']}/bin/python"
 
+default['python']['packages'] = case node['platform_family']
+                                when 'debian'
+                                  %w( python python-dev)
+                                when 'rhel'
+                                  %w( python python-devel)
+                                when 'freebsd'
+                                  %w( python python-devel)
+                                when 'smartos'
+                                  %w( python27 )
+                                else
+                                  %w( python python-dev)
+                                end
+
+
 default['python']['url'] = 'http://www.python.org/ftp/python'
 default['python']['version'] = '2.7.1'
 default['python']['checksum'] = '80e387bcf57eae8ce26726753584fd63e060ec11682d1145af921e85fd612292'
