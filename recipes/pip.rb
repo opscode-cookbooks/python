@@ -36,7 +36,9 @@ end
 cookbook_file "#{Chef::Config[:file_cache_path]}/ez_setup.py" do
   source 'ez_setup.py'
   mode "0644"
-  not_if "#{node['python']['binary']} -c 'import setuptools'"
+  not_if "#{node['python']['binary']} -c 'import pkg_resources, sys;\
+  sys.exit(1) if float(pkg_resources.get_distribution(\"setuptools\")\
+  .version[:3]) < 0.8 else sys.exit(0)'"
 end
 
 cookbook_file "#{Chef::Config[:file_cache_path]}/get-pip.py" do
@@ -50,7 +52,9 @@ execute "install-setuptools" do
   command <<-EOF
   #{node['python']['binary']} ez_setup.py
   EOF
-  not_if "#{node['python']['binary']} -c 'import setuptools'"
+  not_if "#{node['python']['binary']} -c 'import pkg_resources, sys;\
+  sys.exit(1) if float(pkg_resources.get_distribution(\"setuptools\")\
+  .version[:3]) < 0.8 else sys.exit(0)'"
 end
 
 execute "install-pip" do
