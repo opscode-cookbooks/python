@@ -11,10 +11,12 @@ Requirements
 ### Platforms
 - Debian, Ubuntu
 - CentOS, Red Hat, Fedora
+- Windows
 
 ### Cookbooks
 - build-essential
 - yum
+- windows
 
 NOTE: The `yum` cookbook is a dependency of the cookbook, and will be used to install [EPEL](http://fedoraproject.org/wiki/EPEL) on RedHet/CentOS 5.x systems to provide the Python 2.6 packages.
 

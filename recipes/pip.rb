@@ -23,15 +23,7 @@
 # redhat/package: /usr/bin/pip (sha a8a3a3)
 # omnibus/source: /opt/local/bin/pip (sha 29ce9874)
 
-if node['python']['install_method'] == 'source'
-  pip_binary = "#{node['python']['prefix_dir']}/bin/pip"
-elsif platform_family?("rhel")
-  pip_binary = "/usr/bin/pip"
-elsif platform_family?("smartos")
-  pip_binary = "/opt/local/bin/pip"
-else
-  pip_binary = "/usr/local/bin/pip"
-end
+pip_binary = node['python']['pip_location']
 
 cookbook_file "#{Chef::Config[:file_cache_path]}/ez_setup.py" do
   source 'ez_setup.py'

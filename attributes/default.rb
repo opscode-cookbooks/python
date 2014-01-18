@@ -18,26 +18,46 @@
 # limitations under the License.
 #
 
-default['python']['install_method'] = 'package'
-
-if python['install_method'] == 'package'
-  case platform
-  when "smartos"
-    default['python']['prefix_dir']         = '/opt/local'
-  else
-    default['python']['prefix_dir']         = '/usr'
-  end
-else
-  default['python']['prefix_dir']         = '/usr/local'
-end
-
-default['python']['binary'] = "#{node['python']['prefix_dir']}/bin/python"
-
 default['python']['url'] = 'http://www.python.org/ftp/python'
 default['python']['version'] = '2.7.5'
-default['python']['checksum'] = '3b477554864e616a041ee4d7cef9849751770bc7c39adaf78a94ea145c488059'
-default['python']['configure_options'] = %W{--prefix=#{python['prefix_dir']}}
-default['python']['make_options'] = %W{install}
 
-default['python']['pip_location'] = "#{node['python']['prefix_dir']}/bin/pip"
-default['python']['virtualenv_location'] = "#{node['python']['prefix_dir']}/bin/virtualenv"
+if platform?('windows')
+  default['python']['install_method'] = 'windows'
+  
+  default['python']['binary_dir'] = 'c:/Python27'
+  
+  default['python']['pip_location'] = "#{node['python']['binary_dir']}/Scripts/pip.exe"
+  default['python']['virtualenv_location'] = "#{node['python']['binary_dir']}/Scripts/virtualenv.exe"
+  
+  if node['kernel']['machine'] =~ /x86_64/
+    default['python']['msi_filename'] = "python-#{node['python']['version']}.amd64.msi"
+    default['python']['checksum'] = 'cec70fb80feb742b29a5daf6dfd3559c3bc18539baccdeba78ad0b80802d1059'
+  else
+    default['python']['msi_filename'] = "python-#{node['python']['version']}.msi"
+    default['python']['checksum'] = 'ccc5e024e79f5783118a5286a9a5dbb211c194aecb66fbf47e01295394de093b'
+  end
+else
+  default['python']['install_method'] = 'package'
+
+  if python['install_method'] == 'package'
+    case platform
+    when "smartos"
+      default['python']['prefix_dir'] = '/opt/local'
+    else
+      default['python']['prefix_dir'] = '/usr'
+    end
+  else
+    default['python']['prefix_dir'] = '/usr/local'
+  end
+  
+  default['python']['binary_dir'] = "#{node['python']['prefix_dir']}/bin"
+  
+  default['python']['pip_location'] = "#{node['python']['binary_dir']}/pip"
+  default['python']['virtualenv_location'] = "#{node['python']['binary_dir']}/virtualenv"
+  
+  default['python']['configure_options'] = %W{--prefix=#{python['prefix_dir']}}
+  default['python']['make_options'] = %W{install}
+  default['python']['checksum'] = '3b477554864e616a041ee4d7cef9849751770bc7c39adaf78a94ea145c488059'
+end
+
+default['python']['binary'] = "#{node['python']['binary_dir']}/python"
