@@ -29,7 +29,8 @@ if platform?('windows')
   default['python']['pip_location'] = "#{node['python']['binary_dir']}/Scripts/pip.exe"
   default['python']['virtualenv_location'] = "#{node['python']['binary_dir']}/Scripts/virtualenv.exe"
   
-  if node['kernel']['machine'] =~ /x86_64/
+  default['python']['64bit'] =~ /x86_64/
+  if node['python']['64bit']
     default['python']['msi_filename'] = "python-#{node['python']['version']}.amd64.msi"
     default['python']['checksum'] = 'cec70fb80feb742b29a5daf6dfd3559c3bc18539baccdeba78ad0b80802d1059'
   else
