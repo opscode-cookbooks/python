@@ -33,7 +33,7 @@ packages.each do |dev_pkg|
 end
 
 version = node['python']['version']
-install_path = "#{node['python']['prefix_dir']}/bin/python#{version.split(/(^\d+\.\d+)/)[1]}"
+install_path = "#{node['python']['binary_dir']}/python#{version.split(/(^\d+\.\d+)/)[1]}"
 
 remote_file "#{Chef::Config[:file_cache_path]}/Python-#{version}.tgz" do
   source "#{node['python']['url']}/#{version}/Python-#{version}.tgz"
