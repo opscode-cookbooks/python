@@ -108,9 +108,17 @@ def current_installed_version
   @current_installed_version ||= begin
     delimeter = /==/
 
-    version_check_cmd = "#{which_pip(new_resource)} freeze | grep -i '^#{new_resource.package_name}=='"
+    # Extract the egg/package name from a pip package passed in as a URL:
+    #   e.g. git+https://github.com/example/pyexample.git@master#egg=pyexample
+    package_name = if new_resource.package_name.downcase.include?('#egg=')
+      new_resource.package_name.downcase.split('#egg=')[-1]
+    else
+      new_resource.package_name
+    end
+
+    version_check_cmd = "#{which_pip(new_resource)} freeze | grep -i '^#{package_name}=='"
     # incase you upgrade pip with pip!
-    if new_resource.package_name.eql?('pip')
+    if package_name.eql?('pip')
       delimeter = /\s/
       version_check_cmd = "#{which_pip(@new_resource)} --version"
     end
