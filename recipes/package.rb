@@ -33,6 +33,7 @@ else
                   "fedora"  => ["python","python-devel"],
                   "freebsd" => ["python"],
                   "smartos" => ["python27"],
+                  "mac_os_x" => package = Chef::Provider::Package::Macports ? ["python27"] : ["python"],
                   "default" => ["python","python-dev"]
                 )
 end

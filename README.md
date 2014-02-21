@@ -11,6 +11,7 @@ Requirements
 ### Platforms
 - Debian, Ubuntu
 - CentOS, Red Hat, Fedora
+- Max OSX
 
 ### Cookbooks
 - build-essential

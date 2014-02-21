@@ -14,6 +14,6 @@ recipe "python::source", "Installs python from source."
 recipe "python::pip", "Installs pip from source."
 recipe "python::virtualenv", "Installs virtualenv using the python_pip resource."
 
-%w{ debian ubuntu centos redhat fedora freebsd smartos }.each do |os|
+%w{ debian ubuntu centos redhat fedora freebsd smartos mac_os_x mac_os_x_server}.each do |os|
   supports os
 end
