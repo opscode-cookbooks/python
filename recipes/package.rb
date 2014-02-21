@@ -37,6 +37,10 @@ else
                 )
 end
 
+if platform?('amazon')
+  python_pkgs = ['python27', 'python27-devel']
+end
+
 python_pkgs.each do |pkg|
   package pkg do
     action :install
