@@ -19,6 +19,7 @@
 #
 
 default['python']['install_method'] = 'package'
+default['python']['package_names'] = nil  # see package recipe for platform-specific defaults
 
 if python['install_method'] == 'package'
   case platform
