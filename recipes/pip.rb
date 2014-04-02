@@ -44,12 +44,12 @@ execute "install-pip" do
   command <<-EOF
   #{node['python']['binary']} get-pip.py
   EOF
-  environment "#{['python']['environment']}"
+  environment (node['python']['environment'])
   not_if { ::File.exists?(pip_binary) }
 end
 
 python_pip 'setuptools' do
   action :upgrade
-  environment "#{['python']['environment']}"
+  environment (node['python']['environment'])
   version node['python']['setuptools_version']
 end
