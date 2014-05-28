@@ -29,6 +29,11 @@ elsif platform_family?("rhel", "fedora")
   pip_binary = "/usr/bin/pip"
 elsif platform_family?("smartos")
   pip_binary = "/opt/local/bin/pip"
+elsif platform_family?("debian")
+  package "python-pip" do
+    action :install
+  end
+  pip_binary = "/usr/bin/pip"
 else
   pip_binary = "/usr/local/bin/pip"
 end
