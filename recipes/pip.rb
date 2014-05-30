@@ -30,26 +30,29 @@ elsif platform_family?("rhel", "fedora")
 elsif platform_family?("smartos")
   pip_binary = "/opt/local/bin/pip"
 elsif platform_family?("debian")
-  package "python-pip" do
-    action :install
-  end
   pip_binary = "/usr/bin/pip"
 else
   pip_binary = "/usr/local/bin/pip"
 end
 
-cookbook_file "#{Chef::Config[:file_cache_path]}/get-pip.py" do
-  source 'get-pip.py'
-  mode "0644"
-  not_if { ::File.exists?(pip_binary) }
-end
+if node['python']['pip_install_method'] == 'package'
+  package "python-pip" do
+    action :install
+  end
+else
+  cookbook_file "#{Chef::Config[:file_cache_path]}/get-pip.py" do
+    source 'get-pip.py'
+    mode "0644"
+    not_if { ::File.exists?(pip_binary) }
+  end
 
-execute "install-pip" do
-  cwd Chef::Config[:file_cache_path]
-  command <<-EOF
-  #{node['python']['binary']} get-pip.py
-  EOF
-  not_if { ::File.exists?(pip_binary) }
+  execute "install-pip" do
+    cwd Chef::Config[:file_cache_path]
+    command <<-EOF
+    #{node['python']['binary']} get-pip.py
+    EOF
+    not_if { ::File.exists?(pip_binary) }
+  end
 end
 
 python_pip 'setuptools' do
