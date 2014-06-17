@@ -6,7 +6,11 @@ description       "Installs Python, pip and virtualenv. Includes LWRPs for manag
 version           "1.4.7"
 
 depends           "build-essential"
+
+case node["platform"]
+when "redhat", "centos", "fedora"
 depends           "yum-epel"
+end
 
 recipe "python", "Installs python, pip, and virtualenv"
 recipe "python::package", "Installs python using packages."
