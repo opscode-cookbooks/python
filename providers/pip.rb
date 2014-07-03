@@ -171,8 +171,7 @@ def which_pip(nr)
 end
 
 def create_tmp_dir
-  mktemp = shell_out("mktemp -d /tmp/chef-python-pip-XXXXXXXXXX")
-  mktemp.stdout
+  shell_out("mktemp -d /tmp/chef-python-pip-XXXXXXXXXX")
 end
 
 def to_command_line_option(args)
