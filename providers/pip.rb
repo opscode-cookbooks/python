@@ -152,7 +152,6 @@ def pip_cmd(subcommand, version='')
   options = { :timeout => new_resource.timeout, :user => new_resource.user, :group => new_resource.group }
   environment = Hash.new
   environment['HOME'] = Dir.home(new_resource.user) if new_resource.user
-  environment['TMPDIR'] = create_tmp_dir
   environment.merge!(new_resource.environment) if new_resource.environment && !new_resource.environment.empty?
   options[:environment] = environment
   shell_out!("#{which_pip(new_resource)} #{subcommand} #{new_resource.options} #{new_resource.package_name}#{version}", options)
@@ -168,10 +167,6 @@ def which_pip(nr)
   else
     'pip'
   end
-end
-
-def create_tmp_dir
-  shell_out("mktemp -d /tmp/chef-python-pip-XXXXXXXXXX")
 end
 
 def to_command_line_option(args)
