@@ -132,14 +132,11 @@ def install_package(version)
   else
     version = "==#{version}"
   end
-  default_options = to_command_line_option(node['python']['pip']['default_install_options'])
-  new_resource.options "#{default_options} #{new_resource.options}"
   pip_cmd('install', version)
 end
 
 def upgrade_package(version)
-  default_options = to_command_line_option(node['python']['pip']['default_install_options'])
-  new_resource.options "#{default_options} #{new_resource.options} --upgrade"
+  new_resource.options "#{new_resource.options} --upgrade"
   install_package(version)
 end
 
@@ -152,7 +149,6 @@ def pip_cmd(subcommand, version='')
   options = { :timeout => new_resource.timeout, :user => new_resource.user, :group => new_resource.group }
   environment = Hash.new
   environment['HOME'] = Dir.home(new_resource.user) if new_resource.user
-  environment['TMPDIR'] = create_tmp_dir
   environment.merge!(new_resource.environment) if new_resource.environment && !new_resource.environment.empty?
   options[:environment] = environment
   shell_out!("#{which_pip(new_resource)} #{subcommand} #{new_resource.options} #{new_resource.package_name}#{version}", options)
@@ -168,15 +164,4 @@ def which_pip(nr)
   else
     'pip'
   end
-end
-
-def create_tmp_dir
-  mktemp = shell_out("mktemp -d /tmp/chef-python-pip-XXXXXXXXXX")
-  mktemp.stdout
-end
-
-def to_command_line_option(args)
-    return args.map {
-      |argument, setting| "--#{argument} #{setting}"
-    }.join(' ')
 end
