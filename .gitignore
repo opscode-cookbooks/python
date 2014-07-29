@@ -12,3 +12,6 @@ bin/*
 .bundle/*
 .kitchen/
 .kitchen.local.yml
+
+#IDE
+.idea/

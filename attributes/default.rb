@@ -37,7 +37,8 @@ default['python']['url'] = 'http://www.python.org/ftp/python'
 default['python']['version'] = '2.7.7'
 default['python']['checksum'] = '3b477554864e616a041ee4d7cef9849751770bc7c39adaf78a94ea145c488059'
 default['python']['configure_options'] = %W{--prefix=#{python['prefix_dir']}}
-default['python']['make_options'] = %W{install}
+# CentOS yum is hardcoded to python2.6 and therefore requires an altinstall at all times.
+default['python']['make_options'] = (platform?("centos")) && %W{altinstall} || %W{install}
 
 default['python']['pip_location'] = "#{node['python']['prefix_dir']}/bin/pip"
 default['python']['virtualenv_location'] = "#{node['python']['prefix_dir']}/bin/virtualenv"
