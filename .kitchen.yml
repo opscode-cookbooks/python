@@ -60,3 +60,6 @@ suites:
   run_list:
   - recipe[python]
   - recipe[python_test::test_virtualenv]
+- name: virtualenvwrapper
+  run_list:
+  - recipe[python]
