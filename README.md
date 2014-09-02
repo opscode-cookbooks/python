@@ -12,6 +12,11 @@ Requirements
 - Debian, Ubuntu
 - CentOS, Red Hat, Fedora
 
+The following platforms are not automatically testable on TravisCI. If you encounter problems, pull requests with associated tests are welcome.
+- FreeBSD
+- SmartOS
+- Solaris
+
 ### Cookbooks
 - build-essential
 - yum
