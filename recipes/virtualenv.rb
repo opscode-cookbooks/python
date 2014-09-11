@@ -20,7 +20,14 @@
 
 include_recipe "python::pip"
 
-python_pip "virtualenv" do
-  action :upgrade
-  version node['python']['virtualenv_version']
+if platform_family?("debian")
+  package "python-virtualenv" do
+    action :upgrade
+    version node['python']['virtualenv_version']
+  end
+else
+  python_pip "virtualenv" do
+    action :upgrade
+    version node['python']['virtualenv_version']
+  end
 end
