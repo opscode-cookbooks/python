@@ -107,7 +107,12 @@ end
 def current_installed_version
   @current_installed_version ||= begin
     out = nil
+   # In case we feed pip with an URL, one has to filter out the package_name part
+   if new_resource.package_name.downcase.start_with?('http:', 'https:') || ['git', 'hg', 'svn'].include?(new_resource.package_name.downcase.split('+')[0])
+    package_name = new_resource.package_name.match(/^.*\/(\w*)[^\/].*$/)[-1]
+   else
     package_name = new_resource.package_name.gsub('_', '-')
+   end
     pattern = Regexp.new("^#{Regexp.escape(package_name)} \\(([^)]+)\\)$", true)
     shell_out("#{which_pip(new_resource)} list").stdout.lines.find do |line|
       out = pattern.match(line)
