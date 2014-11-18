@@ -35,3 +35,4 @@ attribute :user, :regex => Chef::Config[:user_valid_regex]
 attribute :group, :regex => Chef::Config[:group_valid_regex]
 attribute :options, :kind_of => String, :default => ''
 attribute :environment, :kind_of => Hash, :default => {}
+attribute :command, :kind_of => String, :default => nil
