@@ -1,7 +1,7 @@
 #
 # Author:: Hugo Lopes Tavares <hltbra@gmail.com>
 # Cookbook Name:: python
-# Recipe:: test_virtualenv
+# Recipe:: test_pip
 #
 # Copyright 2013, Heavy Water Operations, LLC.
 # Copyright 2014, Yipit, Inc.
