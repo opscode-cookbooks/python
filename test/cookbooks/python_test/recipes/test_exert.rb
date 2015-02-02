@@ -30,6 +30,6 @@ python_pip "boto" do
   virtualenv "#{Chef::Config[:file_cache_path]}/virtualenv"
 end
 
-python_pip "psutil" do
+python_pip "should_dsl" do
   action :install
 end
