@@ -2,6 +2,10 @@ python Cookbook CHANGELOG
 =========================
 This file is used to list changes made in each version of the python cookbook.
 
+v1.4.7
+------
+Added windows support for python cookbook
+
 v1.4.6
 ------
 

@@ -31,15 +31,26 @@ else
   default['python']['prefix_dir']         = '/usr/local'
 end
 
-default['python']['binary'] = "#{node['python']['prefix_dir']}/bin/python"
-
 default['python']['url'] = 'http://www.python.org/ftp/python'
 default['python']['version'] = '2.7.7'
 default['python']['checksum'] = '7f49c0a6705ad89d925181e27d0aaa025ee4731ce0de64776c722216c3e66c42'
 default['python']['configure_options'] = %W{--prefix=#{node['python']['prefix_dir']}}
 default['python']['make_options'] = %W{install}
 
-default['python']['pip_location'] = "#{node['python']['prefix_dir']}/bin/pip"
-default['python']['virtualenv_location'] = "#{node['python']['prefix_dir']}/bin/virtualenv"
 default['python']['setuptools_version'] = nil # defaults to latest
 default['python']['virtualenv_version'] = nil
+
+ver = default['python']['version']
+default['python']['ez_setup'] = 'https://bootstrap.pypa.io/ez_setup.py'
+
+if RUBY_PLATFORM =~ /mswin|mingw32|windows/
+  default['python']['home'] = "#{ENV['SYSTEMDRIVE']}\\Python#{ver.split('.')[0..1].join('')}"
+  default['python']['easy_install'] = "#{node['python']['home']}\\Scripts\\easy_install.exe"
+  default['python']['binary'] = "#{node['python']['home']}/python.exe"
+  default['python']['pip_location'] = "#{node['python']['home']}\\Scripts\\pip.exe"
+  default['python']['virtualenv_location'] = "#{node['python']['home']}\\Scripts\\virtualenv"
+else
+  default['python']['binary'] = "#{node['python']['prefix_dir']}/bin/python"
+  default['python']['pip_location'] = "#{node['python']['prefix_dir']}/bin/pip"
+  default['python']['virtualenv_location'] = "#{node['python']['prefix_dir']}/bin/virtualenv"
+end
