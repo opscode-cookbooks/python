@@ -21,7 +21,7 @@
 cookbook_file "#{Chef::Config[:file_cache_path]}/get-pip.py" do
   source 'get-pip.py'
   mode "0644"
-  not_if { ::File.exists?(node['python']['pip']) }
+  not_if { ::File.exists?(node['python']['pip_location']) }
 end
 
 execute "install-pip" do
@@ -29,7 +29,7 @@ execute "install-pip" do
   command <<-EOF
   #{node['python']['binary']} get-pip.py
   EOF
-  not_if { ::File.exists?(node['python']['pip']) }
+  not_if { ::File.exists?(node['python']['pip_location']) }
 end
 
 python_pip 'setuptools' do

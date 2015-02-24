@@ -58,14 +58,14 @@ else
   default['python']['binary'] = "#{node['python']['prefix_dir']}/bin/python"
   default['python']['virtualenv_location'] = "#{node['python']['prefix_dir']}/bin/virtualenv"
 
-  default['python']['pip'] = "#{node['python']['prefix_dir']}/bin/pip"
+  default['python']['pip_location'] = "#{node['python']['prefix_dir']}/bin/pip"
   if node['python']['install_method'] == 'source'
-    default['python']['pip'] = "#{node['python']['prefix_dir']}/bin/pip"
+    default['python']['pip_location'] = "#{node['python']['prefix_dir']}/bin/pip"
   elsif platform_family?("rhel", "fedora")
-    default['python']['pip'] = "/usr/bin/pip"
+    default['python']['pip_location'] = "/usr/bin/pip"
   elsif platform_family?("smartos")
-    default['python']['pip'] = "/opt/local/bin/pip"
+    default['python']['pip_location'] = "/opt/local/bin/pip"
   else
-    default['python']['pip'] = "/usr/local/bin/pip"
+    default['python']['pip_location'] = "/usr/local/bin/pip"
   end
 end
