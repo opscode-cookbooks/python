@@ -41,16 +41,31 @@ default['python']['setuptools_version'] = nil # defaults to latest
 default['python']['virtualenv_version'] = nil
 
 ver = default['python']['version']
-default['python']['ez_setup'] = 'https://bootstrap.pypa.io/ez_setup.py'
 
-if RUBY_PLATFORM =~ /mswin|mingw32|windows/
+# Where does pip get installed?
+# platform/method: path (proof)
+# redhat/package: /usr/bin/pip (sha a8a3a3)
+# omnibus/source: /opt/local/bin/pip (sha 29ce9874)
+# windows C:\Python27\Scripts\pip.exe
+
+if platform_family?("windows")
   default['python']['home'] = "#{ENV['SYSTEMDRIVE']}\\Python#{ver.split('.')[0..1].join('')}"
   default['python']['easy_install'] = "#{node['python']['home']}\\Scripts\\easy_install.exe"
   default['python']['binary'] = "#{node['python']['home']}/python.exe"
-  default['python']['pip_location'] = "#{node['python']['home']}\\Scripts\\pip.exe"
+  default['python']['pip'] = "#{node['python']['home']}\\Scripts\\pip.exe"
   default['python']['virtualenv_location'] = "#{node['python']['home']}\\Scripts\\virtualenv"
 else
   default['python']['binary'] = "#{node['python']['prefix_dir']}/bin/python"
-  default['python']['pip_location'] = "#{node['python']['prefix_dir']}/bin/pip"
   default['python']['virtualenv_location'] = "#{node['python']['prefix_dir']}/bin/virtualenv"
+
+  default['python']['pip'] = "#{node['python']['prefix_dir']}/bin/pip"
+  if node['python']['install_method'] == 'source'
+    default['python']['pip'] = "#{node['python']['prefix_dir']}/bin/pip"
+  elsif platform_family?("rhel", "fedora")
+    default['python']['pip'] = "/usr/bin/pip"
+  elsif platform_family?("smartos")
+    default['python']['pip'] = "/opt/local/bin/pip"
+  else
+    default['python']['pip'] = "/usr/local/bin/pip"
+  end
 end

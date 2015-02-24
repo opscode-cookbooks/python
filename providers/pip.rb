@@ -160,8 +160,8 @@ end
 def which_pip(nr)
   if (nr.respond_to?("virtualenv") && nr.virtualenv)
     ::File.join(nr.virtualenv,'/bin/pip')
-  elsif ::File.exists?(node['python']['pip_location'])
-    node['python']['pip_location']
+  elsif ::File.exists?(node['python']['pip'])
+    node['python']['pip']
   else
     'pip'
   end
