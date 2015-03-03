@@ -132,6 +132,8 @@ def install_package(version)
     version = ''
   elsif version.start_with?(">=")
     version = ">=#{version}"
+  elsif version.start_with?(">")
+    version = ">#{version}"
   else
     version = "==#{version}"
   end
