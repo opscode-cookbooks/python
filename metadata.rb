@@ -7,15 +7,14 @@ version           "1.4.7"
 
 depends           "build-essential"
 depends           "yum-epel"
+depends           "windows"
 
 recipe "python", "Installs python, pip, and virtualenv"
 recipe "python::package", "Installs python using packages."
 recipe "python::source", "Installs python from source."
 recipe "python::pip", "Installs pip from source."
 recipe "python::virtualenv", "Installs virtualenv using the python_pip resource."
-recipe "python::windows", "Installs python  on windows"
-recipe "python::windows_pip", "Installs easy_install and pip"
+recipe "python::windows", "Installs python on windows"
 %w{ debian ubuntu centos redhat fedora freebsd smartos windows}.each do |os|
   supports os
 end
-depends 'windows'

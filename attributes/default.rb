@@ -58,7 +58,6 @@ else
   default['python']['binary'] = "#{node['python']['prefix_dir']}/bin/python"
   default['python']['virtualenv_location'] = "#{node['python']['prefix_dir']}/bin/virtualenv"
 
-  default['python']['pip_location'] = "#{node['python']['prefix_dir']}/bin/pip"
   if node['python']['install_method'] == 'source'
     default['python']['pip_location'] = "#{node['python']['prefix_dir']}/bin/pip"
   elsif platform_family?("rhel", "fedora")
