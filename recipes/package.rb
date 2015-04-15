@@ -20,16 +20,25 @@
 
 major_version = node['platform_version'].split('.').first.to_i
 
-# COOK-1016 Handle RHEL/CentOS namings of python packages, by installing EPEL
-# repo & package
-if platform_family?('rhel') && major_version < 6
-  include_recipe 'yum-epel'
-  python_pkgs = ["python26", "python26-devel"]
-  node.default['python']['binary'] = "/usr/bin/python26"
+# If the user specified packages, install them instead
+if ! node['python'].has_key?'packages'
+    python_pkgs = node['python']['packages']
+elsif platform_family?('rhel')
+  if platform?('amazon')
+    python_pkgs = ["python27", "python27-devel"]
+    node.default['python']['binary'] = "/usr/bin/python27"
+  elsif major_version < 6
+    # COOK-1016 Handle RHEL/CentOS namings of python packages, by installing EPEL
+    # repo & package
+    include_recipe 'yum-epel'
+    python_pkgs = ["python26", "python26-devel"]
+    node.default['python']['binary'] = "/usr/bin/python26"
+  else
+    python_pkgs = ["python", "python-devel"]
+  end
 else
-  python_pkgs = value_for_platform_family(
+    python_pkgs = value_for_platform_family(
                   "debian"  => ["python","python-dev"],
-                  "rhel"    => ["python","python-devel"],
                   "fedora"  => ["python","python-devel"],
                   "freebsd" => ["python"],
                   "smartos" => ["python27"],
