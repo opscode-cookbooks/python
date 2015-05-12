@@ -1,9 +1,9 @@
 #
-# Author:: Seth Chisamore <schisamo@opscode.com>
+# Author:: Seth Chisamore <schisamo@chef.io>
 # Cookbook Name:: python
 # Recipe:: package
 #
-# Copyright 2011, Opscode, Inc.
+# Copyright 2011, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,21 +23,25 @@ major_version = node['platform_version'].split('.').first.to_i
 # COOK-1016 Handle RHEL/CentOS namings of python packages, by installing EPEL
 # repo & package
 if platform_family?('rhel') && major_version < 6
-  include_recipe 'yum::epel'
+  include_recipe 'yum-epel'
   python_pkgs = ["python26", "python26-devel"]
-  node['python']['binary'] = "/usr/bin/python26"
+  node.default['python']['binary'] = "/usr/bin/python26"
 else
+  python_pkgs = value_for_platform_family(
+                  "debian"  => ["python","python-dev"],
+                  "rhel"    => ["python","python-devel"],
+                  "fedora"  => ["python","python-devel"],
+                  "freebsd" => ["python"],
+                  "smartos" => ["python27"],
+                  "default" => ["python","python-dev"]
+                )
   if node.platform_family? 'mac_os_x'
     case Chef::Platform.find_provider_for_node(node, :package).to_s.split['::'].last
     when 'Macports'
       python_pkgs = ['python27']
-    when 'Homebrew'
-      python_pkgs = ['python']
     else
       python_pkgs = ['python']
     end
-  else
-    python_pkgs = node['python']['packages']
   end
 end
 

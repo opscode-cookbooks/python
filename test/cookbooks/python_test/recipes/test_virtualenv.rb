@@ -1,9 +1,9 @@
 #
-# Author:: Seth Chisamore <schisamo@chef.io>
+# Author:: Sean Porter <portertech@hw-ops.com>
 # Cookbook Name:: python
-# Recipe:: default
+# Recipe:: test_virtualenv
 #
-# Copyright 2011, Chef Software, Inc.
+# Copyright 2013, Heavy Water Operations, LLC.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,6 +18,18 @@
 # limitations under the License.
 #
 
-include_recipe "python::#{node['python']['install_method']}"
-include_recipe "python::pip"
-include_recipe "python::virtualenv"
+python_virtualenv "/tmp/virtualenv" do
+  owner "root"
+  group "root"
+  action :create
+end
+
+python_virtualenv "isolated python environment" do
+  path "/tmp/tobedestroyed"
+  action :create
+end
+
+python_virtualenv "deleting the isolated python environment" do
+  path "/tmp/tobedestroyed"
+  action :delete
+end

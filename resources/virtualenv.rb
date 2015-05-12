@@ -1,9 +1,9 @@
 #
-# Author:: Seth Chisamore <schisamo@opscode.com>
+# Author:: Seth Chisamore <schisamo@chef.io>
 # Cookbook Name:: python
 # Resource:: virtualenv
 #
-# Copyright:: 2011, Opscode, Inc <legal@opscode.com>
+# Copyright:: 2011, Chef Software, Inc <legal@chef.io>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,9 +19,16 @@
 #
 
 actions :create, :delete
+default_action :create if defined?(default_action) # Chef > 10.8
+
+# Default action for Chef <= 10.8
+def initialize(*args)
+  super
+  @action = :create
+end
 
 attribute :path, :kind_of => String, :name_attribute => true
-attribute :interpreter, :default => 'python'
+attribute :interpreter, :kind_of => String
 attribute :owner, :regex => Chef::Config[:user_valid_regex]
 attribute :group, :regex => Chef::Config[:group_valid_regex]
 attribute :options, :kind_of => String
