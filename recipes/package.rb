@@ -36,7 +36,7 @@ else
                   "default" => ["python","python-dev"]
                 )
   if node.platform_family? 'mac_os_x'
-    case Chef::Platform.find_provider_for_node(node, :package).to_s.split['::'].last
+    case Chef::Platform.find_provider_for_node(node, :package).to_s.split('::').last
     when 'Macports'
       python_pkgs = ['python27']
     else
