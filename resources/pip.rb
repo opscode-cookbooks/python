@@ -27,6 +27,14 @@ def initialize(*args)
   @action = :install
 end
 
+state_attrs :group,
+            :options,
+            :package_name,
+            :timeout,
+            :user,
+            :version,
+            :virtualenv
+
 attribute :package_name, :kind_of => String, :name_attribute => true
 attribute :version, :default => nil
 attribute :timeout, :default => 900

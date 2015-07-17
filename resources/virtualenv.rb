@@ -27,6 +27,12 @@ def initialize(*args)
   @action = :create
 end
 
+state_attrs :group,
+            :interpreter,
+            :options,
+            :owner,
+            :path
+
 attribute :path, :kind_of => String, :name_attribute => true
 attribute :interpreter, :kind_of => String
 attribute :owner, :regex => Chef::Config[:user_valid_regex]
