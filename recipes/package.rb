@@ -33,6 +33,7 @@ else
                   "fedora"  => ["python","python-devel"],
                   "freebsd" => ["python"],
                   "smartos" => ["python27"],
+                  "solaris2" => ["pkg:/runtime/python-26","pkg:/library/python-2/setuptools-26"],
                   "default" => ["python","python-dev"]
                 )
 end
