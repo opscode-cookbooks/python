@@ -19,6 +19,7 @@ Requirements
 ### Platforms
 - Debian, Ubuntu
 - CentOS, Red Hat, Fedora
+- Windows
 
 ### Cookbooks
 - build-essential
@@ -140,7 +141,7 @@ Include default recipe in a run list, to get `python`, `pip` and `virtualenv`. I
 Installs Python from packages.
 
 ### source
-Installs Python from source.
+Installs Python from source (not supported on windows).
 
 ### pip
 Installs `pip` from source.
@@ -152,7 +153,7 @@ Installs virtualenv using the `python_pip` resource.
 
 License & Authors
 -----------------
-- Author:: Seth Chisamore (<schisamo@chef.io>)
+- Authors:: Seth Chisamore (<schisamo@chef.io>), Kourosh Parsa(kouroshtheking@gmail.com)
 
 ```text
 Copyright:: 2011, Chef Software, Inc

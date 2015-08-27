@@ -18,6 +18,11 @@
 # limitations under the License.
 #
 
-include_recipe "python::#{node['python']['install_method']}"
+if Chef::Platform.windows?
+  include_recipe 'python::windows'
+else
+  include_recipe "python::#{node['python']['install_method']}"
+end
+
 include_recipe "python::pip"
 include_recipe "python::virtualenv"
