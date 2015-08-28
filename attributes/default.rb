@@ -43,3 +43,14 @@ default['python']['pip_location'] = "#{node['python']['prefix_dir']}/bin/pip"
 default['python']['virtualenv_location'] = "#{node['python']['prefix_dir']}/bin/virtualenv"
 default['python']['setuptools_version'] = nil # defaults to latest
 default['python']['virtualenv_version'] = nil
+
+if platform?('windows')
+  default['python']['install_method'] = 'windows'
+  default['python']['install_64bit'] = node['kernel']['machine'] =~ /x86_64/
+  default['python']['msi_checksum_64bit'] = 'cec70fb80feb742b29a5daf6dfd3559c3bc18539baccdeba78ad0b80802d1059'
+  default['python']['msi_checksum_32bit'] = 'ccc5e024e79f5783118a5286a9a5dbb211c194aecb66fbf47e01295394de093b'
+  default['python']['install_dir'] = 'C:\Python27'
+  default['python']['binary'] = "#{node['python']['install_dir']}/python.exe"
+  default['python']['pip_location'] = "#{node['python']['install_dir']}/Scripts/pip.exe"
+  default['python']['virtualenv_location'] = "#{node['python']['install_dir']}/Scripts/virtualenv.exe"
+end
