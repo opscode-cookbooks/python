@@ -146,13 +146,22 @@ def remove_package(version)
   pip_cmd('uninstall')
 end
 
+def expand_options(subcommand, opts)
+  if subcommand == 'install'
+    unless node['python']['pip_cache_location'].nil? && opts.include?('--download-cache')
+      opts << " --download-cache=\"#{node['python']['pip_cache_location']}\""
+    end
+  end
+  opts
+end
+
 def pip_cmd(subcommand, version='')
   options = { :timeout => new_resource.timeout, :user => new_resource.user, :group => new_resource.group }
   environment = Hash.new
   environment['HOME'] = Dir.home(new_resource.user) if new_resource.user
   environment.merge!(new_resource.environment) if new_resource.environment && !new_resource.environment.empty?
   options[:environment] = environment
-  shell_out!("#{which_pip(new_resource)} #{subcommand} #{new_resource.options} #{new_resource.package_name}#{version}", options)
+  shell_out!("#{which_pip(new_resource)} #{subcommand} #{expand_options(subcommand, new_resource.options)} #{new_resource.name}#{version}", options)
 end
 
 # TODO remove when provider is moved into Chef core

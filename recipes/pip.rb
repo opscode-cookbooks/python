@@ -51,3 +51,10 @@ python_pip 'setuptools' do
   action :upgrade
   version node['python']['setuptools_version']
 end
+
+if node['python']['pip_cache_location']
+  directory node['python']['pip_cache_location'] do
+    recursive true
+    action :create
+  end
+end
