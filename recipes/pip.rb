@@ -41,8 +41,10 @@ end
 
 execute "install-pip" do
   cwd Chef::Config[:file_cache_path]
+  # Command updated to only allow pip versions prior to 8.0.0
+  # @see https://github.com/DataDog/devops/issues/4225
   command <<-EOF
-  #{node['python']['binary']} get-pip.py
+  #{node['python']['binary']} get-pip.py | python - 'pip<8'
   EOF
   not_if { ::File.exists?(pip_binary) }
 end
