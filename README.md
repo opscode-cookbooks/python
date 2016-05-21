@@ -1,11 +1,11 @@
-python Cookbook
+Python Cookbook
 ===============
 
 [![Build Status](https://travis-ci.org/poise/python.png?branch=master)](https://travis-ci.org/poise/python)
 
 Installs and configures Python.  Also includes LWRPs for managing python packages with `pip` and `virtualenv` isolated Python environments.
 
-## **THIS COOKBOOK IS DEPRECATED**
+## **NOTE: THIS COOKBOOK IS DEPRECATED**
 
 [Poise-python](https://github.com/poise/poise-python) is a vastly better cookbook
 for managing Python-related things. This cookbook will remain for compatibility
@@ -93,9 +93,9 @@ end
 - :delete: deletes an existing virtualenv
 
 #### Attribute Parameters
-- path: name attribute. The path where the virtualenv will be created
-- interpreter: The Python interpreter to use. default is null (i.e. use whatever python the virtualenv command is using).
-- owner: The owner for the virtualenv
+- path: name attribute. [The path where the virtualenv will be created]
+- interpreter: The Python interpreter to use. [Default is null (i.e. use whatever python the virtualenv command is using)]
+- owner: The owner of the virtualenv
 - group: The group owner of the file (string or id)
 - options : Command line options (string)
 
