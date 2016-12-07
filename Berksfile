@@ -2,6 +2,8 @@ site 'https://supermarket.chef.io'
 
 metadata
 
+cookbook "chef-sugar"
+
 group :integration do
   cookbook "minitest-handler"
   cookbook "apt"
