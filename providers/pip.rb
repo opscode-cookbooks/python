@@ -130,6 +130,14 @@ def install_package(version)
   # or from a VCS (ex. git+https://git.repo/some_pkg.git) then do not append a version as this will break the source link
   if version == 'latest' || new_resource.package_name.downcase.start_with?('http:', 'https:') || ['git', 'hg', 'svn'].include?(new_resource.package_name.downcase.split('+')[0])
     version = ''
+  elsif version.start_with?(">=")
+    version = ">=#{version}"
+  elsif version.start_with?(">")
+    version = ">#{version}"
+  elsif version.start_with?("<=")
+    version = "<=#{version}"
+  elsif version.start_with?("<")
+    version = "<#{version}"
   else
     version = "==#{version}"
   end
