@@ -162,6 +162,8 @@ def which_pip(nr)
     ::File.join(nr.virtualenv,'/bin/pip')
   elsif ::File.exists?(node['python']['pip_location'])
     node['python']['pip_location']
+  elsif new_resource.command
+    new_resource.command
   else
     'pip'
   end
