@@ -21,3 +21,8 @@
 include_recipe "python::#{node['python']['install_method']}"
 include_recipe "python::pip"
 include_recipe "python::virtualenv"
+
+
+node['python']['packages'].each do |package|
+  pip_package package
+end
