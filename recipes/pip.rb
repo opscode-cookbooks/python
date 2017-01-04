@@ -47,6 +47,12 @@ execute "install-pip" do
   not_if { ::File.exists?(pip_binary) }
 end
 
+# once pip is installed we can set it to a configured version
+python_pip 'pip' do
+  action :upgrade
+  version node['python']['pip_version']
+end
+
 python_pip 'setuptools' do
   action :upgrade
   version node['python']['setuptools_version']
