@@ -19,6 +19,8 @@
 #
 
 default['python']['install_method'] = 'package'
+# if you want custom packages override this attribute like so
+#default['python']['packages'] = ['python32','python32-devel']
 
 if python['install_method'] == 'package'
   case platform
