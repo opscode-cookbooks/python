@@ -13,6 +13,7 @@ recipe "python::package", "Installs python using packages."
 recipe "python::source", "Installs python from source."
 recipe "python::pip", "Installs pip from source."
 recipe "python::virtualenv", "Installs virtualenv using the python_pip resource."
+recipe "python::packages", "Installs packages using pip."
 
 %w{ debian ubuntu centos redhat fedora freebsd smartos }.each do |os|
   supports os
