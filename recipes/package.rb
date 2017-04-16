@@ -35,6 +35,14 @@ else
                   "smartos" => ["python27"],
                   "default" => ["python","python-dev"]
                 )
+  if node.platform_family? 'mac_os_x'
+    case Chef::Platform.find_provider_for_node(node, :package).to_s.split('::').last
+    when 'Macports'
+      python_pkgs = ['python27']
+    else
+      python_pkgs = ['python']
+    end
+  end
 end
 
 python_pkgs.each do |pkg|
