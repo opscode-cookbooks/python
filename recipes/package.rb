@@ -28,7 +28,7 @@ if platform_family?('rhel') && major_version < 6
   node.default['python']['binary'] = "/usr/bin/python26"
 else
   python_pkgs = value_for_platform_family(
-                  "debian"  => ["python","python-dev"],
+                  "debian"  => ["python","python-dev","python-setuptools"],
                   "rhel"    => ["python","python-devel"],
                   "fedora"  => ["python","python-devel"],
                   "freebsd" => ["python"],
