@@ -23,31 +23,39 @@
 # redhat/package: /usr/bin/pip (sha a8a3a3)
 # omnibus/source: /opt/local/bin/pip (sha 29ce9874)
 
-if node['python']['install_method'] == 'source'
-  pip_binary = "#{node['python']['prefix_dir']}/bin/pip"
-elsif platform_family?("rhel", "fedora")
-  pip_binary = "/usr/bin/pip"
-elsif platform_family?("smartos")
-  pip_binary = "/opt/local/bin/pip"
+if platform_family?("debian")
+  package 'python-pip'
+  package 'python-setuptools' do
+    action :upgrade
+    version node['python']['setuptools_version']
+  end
 else
-  pip_binary = "/usr/local/bin/pip"
-end
+  if node['python']['install_method'] == 'source'
+    pip_binary = "#{node['python']['prefix_dir']}/bin/pip"
+  elsif platform_family?("rhel", "fedora")
+    pip_binary = "/usr/bin/pip"
+  elsif platform_family?("smartos")
+    pip_binary = "/opt/local/bin/pip"
+  else
+    pip_binary = "/usr/local/bin/pip"
+  end
 
-cookbook_file "#{Chef::Config[:file_cache_path]}/get-pip.py" do
-  source 'get-pip.py'
-  mode "0644"
-  not_if { ::File.exists?(pip_binary) }
-end
+  cookbook_file "#{Chef::Config[:file_cache_path]}/get-pip.py" do
+    source 'get-pip.py'
+    mode "0644"
+    not_if { ::File.exists?(pip_binary) }
+  end
 
-execute "install-pip" do
-  cwd Chef::Config[:file_cache_path]
-  command <<-EOF
-  #{node['python']['binary']} get-pip.py
-  EOF
-  not_if { ::File.exists?(pip_binary) }
-end
+  execute "install-pip" do
+    cwd Chef::Config[:file_cache_path]
+    command <<-EOF
+    #{node['python']['binary']} get-pip.py
+    EOF
+    not_if { ::File.exists?(pip_binary) }
+  end
 
-python_pip 'setuptools' do
-  action :upgrade
-  version node['python']['setuptools_version']
+  python_pip 'setuptools' do
+    action :upgrade
+    version node['python']['setuptools_version']
+  end
 end
