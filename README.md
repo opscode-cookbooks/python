@@ -32,6 +32,7 @@ Attributes
 See `attributes/default.rb` for default values.
 
 - `node["python"]["install_method"]` - method to install python with, default `package`.
+- `node["python"]["environment"]` - specify a default environment (i.e. {'http_proxy' => "http://..."}) for pip/python commands executed via this cookbook, default `{}`
 
 The file also contains the following attributes:
 

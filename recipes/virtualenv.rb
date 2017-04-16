@@ -22,5 +22,6 @@ include_recipe "python::pip"
 
 python_pip "virtualenv" do
   action :upgrade
+  environment (node['python']['environment'])
   version node['python']['virtualenv_version']
 end

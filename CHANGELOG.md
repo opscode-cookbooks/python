@@ -1,6 +1,10 @@
 python Cookbook CHANGELOG
 =========================
 This file is used to list changes made in each version of the python cookbook.
+v1.4.8
+------
+### Improvement
+- Adding python environment attribute to allow overriding of the default python/pip environment (useful when http(s)_proxying is required).
 
 v1.4.6
 ------
