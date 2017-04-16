@@ -18,11 +18,9 @@
 # limitations under the License.
 #
 
-major_version = node['platform_version'].split('.').first.to_i
-
 # COOK-1016 Handle RHEL/CentOS namings of python packages, by installing EPEL
 # repo & package
-if platform_family?('rhel') && major_version < 6
+if rhel5x?
   include_recipe 'yum-epel'
   python_pkgs = ["python26", "python26-devel"]
   node.default['python']['binary'] = "/usr/bin/python26"
