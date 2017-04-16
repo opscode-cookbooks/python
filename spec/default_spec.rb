@@ -20,4 +20,8 @@ describe 'python::default' do
   it 'includes python::virtualenv' do
     expect(chef_run).to include_recipe('python::virtualenv')
   end
+
+  it 'includes python::virtualenvwrapper' do
+    expect(chef_run).to include_recipe('python::virtualenvwrapper')
+  end
 end

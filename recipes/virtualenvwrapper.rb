@@ -1,9 +1,9 @@
 #
-# Author:: Seth Chisamore <schisamo@chef.io>
+# Author:: Seth Chisamore <schisamo@opscode.com>
 # Cookbook Name:: python
-# Recipe:: default
+# Recipe:: virtualenvwrapper
 #
-# Copyright 2011, Chef Software, Inc.
+# Copyright 2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,7 +18,16 @@
 # limitations under the License.
 #
 
-include_recipe "python::#{node['python']['install_method']}"
 include_recipe "python::pip"
-include_recipe "python::virtualenv"
-include_recipe "python::virtualenvwrapper"
+
+python_pip "virtualenvwrapper" do
+  action :upgrade
+  version node['python']['virtualenvwrapper_version']
+end
+
+cookbook_file "/usr/local/bin/init_virtualenvwrapper.sh" do
+  source "init_virtualenvwrapper.sh"
+  owner "root"
+  group "root"
+  mode "0777"
+end
