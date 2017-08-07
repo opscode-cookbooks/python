@@ -2,6 +2,11 @@ python Cookbook CHANGELOG
 =========================
 This file is used to list changes made in each version of the python cookbook.
 
+v1.4.8
+------
+
+- Refactored to work with Chef Client 13 and ran Rubocop
+
 v1.4.6
 ------
 

@@ -1,25 +1,22 @@
-{
-  "sources": {
-    "python": {
-      "path": "."
-    },
-    "minitest-handler": {
-      "locked_version": "1.1.2"
-    },
-    "apt": {
-      "locked_version": "2.3.4"
-    },
-    "yum": {
-      "locked_version": "3.0.2"
-    },
-    "build-essential": {
-      "locked_version": "1.4.2"
-    },
-    "python_test": {
-      "path": "./test/cookbooks/python_test"
-    },
-    "chef_handler": {
-      "locked_version": "1.1.4"
-    }
-  }
-}
+DEPENDENCIES
+  python
+    path: .
+    metadata: true
+
+GRAPH
+  build-essential (8.0.3)
+    mingw (>= 1.1)
+    seven_zip (>= 0.0.0)
+  compat_resource (12.19.0)
+  mingw (2.0.1)
+    seven_zip (>= 0.0.0)
+  ohai (5.1.0)
+  python (1.4.8)
+    build-essential (>= 0.0.0)
+    yum-epel (>= 0.0.0)
+  seven_zip (2.0.2)
+    windows (>= 1.2.2)
+  windows (3.1.1)
+    ohai (>= 4.0.0)
+  yum-epel (2.1.2)
+    compat_resource (>= 12.16.3)
