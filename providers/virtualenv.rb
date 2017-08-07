@@ -33,7 +33,7 @@ action :create do
       group new_resource.group if new_resource.group
     end
     Chef::Log.info("Creating virtualenv #{new_resource} at #{new_resource.path}")
-    interpreter = new_resource.interpreter ? " --python=#{new_resource.interpreter}" : ""
+    interpreter = new_resource.interpreter ? " --python=#{new_resource.interpreter}" : ''
     execute "#{virtualenv_cmd}#{interpreter} #{new_resource.options} #{new_resource.path}" do
       user new_resource.owner if new_resource.owner
       group new_resource.group if new_resource.group
@@ -47,8 +47,8 @@ action :delete do
   if exists?
     description = "delete virtualenv #{new_resource} at #{new_resource.path}"
     converge_by(description) do
-       Chef::Log.info("Deleting virtualenv #{new_resource} at #{new_resource.path}")
-       FileUtils.rm_rf(new_resource.path)
+      Chef::Log.info("Deleting virtualenv #{new_resource} at #{new_resource.path}")
+      FileUtils.rm_rf(new_resource.path)
     end
   end
 end
@@ -65,16 +65,17 @@ def load_current_resource
   @current_resource
 end
 
-def virtualenv_cmd()
-  if ::File.exists?(node['python']['virtualenv_location'])
+def virtualenv_cmd
+  if ::File.exist?(node['python']['virtualenv_location'])
     node['python']['virtualenv_location']
   else
-    "virtualenv"
+    'virtualenv'
   end
 end
 
 private
+
 def exists?
   ::File.exist?(current_resource.path) && ::File.directory?(current_resource.path) \
-    && ::File.exists?("#{current_resource.path}/bin/activate")
+    && ::File.exist?("#{current_resource.path}/bin/activate")
 end
