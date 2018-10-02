@@ -59,7 +59,7 @@ Install packages using the new hotness in Python package management...[`pip`](ht
 - :purge: Purge a pip package (this usually entails removing configuration files as well as the package itself).  With pip packages this behaves the same as `:remove`
 
 #### Attribute Parameters
-
+# Attribute are very important
 - package_name: name attribute. The name of the pip package to install
 - version: the version of the package to install/upgrade.  If no version is given latest is assumed.
 - virtualenv: virtualenv environment to install pip package into
